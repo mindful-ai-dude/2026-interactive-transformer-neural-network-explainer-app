@@ -1,0 +1,379 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 750" width="900" height="750">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap');
+      text { font-family: 'Inter', system-ui, sans-serif; }
+      .mono { font-family: 'JetBrains Mono', 'SF Mono', monospace; }
+    </style>
+
+    <!-- Glow filters -->
+    <filter id="glow-indigo" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#6366F1" flood-opacity="0.3"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-emerald" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#10B981" flood-opacity="0.35"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-amber" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#F59E0B" flood-opacity="0.35"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-cyan" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#06B6D4" flood-opacity="0.35"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-purple" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#8B5CF6" flood-opacity="0.3"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feFlood flood-color="#000" flood-opacity="0.4"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="900" height="750" rx="16" fill="#0F172A"/>
+
+  <!-- ============================================ -->
+  <!-- TITLE (7.5-8.5s)                             -->
+  <!-- ============================================ -->
+  <text x="450" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#E0E0E0" opacity="0">
+    Complete Project Structure
+    <animate attributeName="opacity" from="0" to="1" begin="7.5s" dur="0.8s" fill="freeze"/>
+  </text>
+  <line x1="200" y1="48" x2="700" y2="48" stroke="#6366F1" stroke-width="1" stroke-opacity="0">
+    <animate attributeName="stroke-opacity" from="0" to="0.4" begin="7.8s" dur="0.5s" fill="freeze"/>
+    <animate attributeName="stroke-opacity" values="0.4;0.2;0.4" dur="4s" begin="10s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- ============================================ -->
+  <!-- PROJECT ROOT NODE (0-0.8s)                   -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="0s" dur="0.6s" fill="freeze"/>
+    <rect x="350" y="65" width="200" height="42" rx="10" fill="#0F172A" stroke="#6366F1" stroke-width="2.5" filter="url(#glow-indigo)"/>
+    <rect x="350" y="65" width="200" height="42" rx="10" fill="#6366F1" opacity="0.12"/>
+    <!-- Folder icon -->
+    <rect x="370" y="78" width="16" height="12" rx="2" fill="none" stroke="#A5B4FC" stroke-width="1.5"/>
+    <rect x="370" y="75" width="8" height="4" rx="1" fill="none" stroke="#A5B4FC" stroke-width="1.2"/>
+    <text x="395" y="91" class="mono" font-size="14" font-weight="700" fill="#A5B4FC">project-root/</text>
+    <!-- Stroke draw-in -->
+    <rect x="350" y="65" width="200" height="42" rx="10" fill="none" stroke="#6366F1" stroke-width="2.5" stroke-dasharray="484" stroke-dashoffset="484">
+      <animate attributeName="stroke-dashoffset" values="484;0" dur="1.2s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+    </rect>
+    <animate attributeName="filter" values=";url(#glow-indigo)" dur="0.001s" begin="0.8s" fill="freeze"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- VERTICAL TRUNK LINE from root (0.8s)         -->
+  <!-- ============================================ -->
+  <line x1="450" y1="107" x2="450" y2="145" stroke="#4B5563" stroke-width="1.5" stroke-dasharray="38" stroke-dashoffset="38" opacity="0.5">
+    <animate attributeName="stroke-dashoffset" values="38;0" dur="0.3s" begin="0.8s" fill="freeze"/>
+  </line>
+
+  <!-- ============================================ -->
+  <!-- ROOT FILES ROW (1.0-2.0s)                    -->
+  <!-- ============================================ -->
+
+  <!-- AGENTS.md -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.0s" dur="0.4s" fill="freeze"/>
+    <rect x="40" y="148" width="130" height="34" rx="8" fill="#0F172A" stroke="#6366F1" stroke-width="1.5"/>
+    <rect x="40" y="148" width="130" height="34" rx="8" fill="#6366F1" opacity="0.08"/>
+    <text x="105" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#A5B4FC">AGENTS.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="4.2s" begin="10s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- README.md -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.2s" dur="0.4s" fill="freeze"/>
+    <rect x="185" y="148" width="120" height="34" rx="8" fill="#0F172A" stroke="#6366F1" stroke-width="1.5"/>
+    <rect x="185" y="148" width="120" height="34" rx="8" fill="#6366F1" opacity="0.08"/>
+    <text x="245" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#A5B4FC">README.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.5s" begin="10.3s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- start.sh -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.4s" dur="0.4s" fill="freeze"/>
+    <rect x="320" y="148" width="100" height="34" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="320" y="148" width="100" height="34" rx="8" fill="#10B981" opacity="0.08"/>
+    <text x="370" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#6EE7B7">start.sh</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="3.8s" begin="10.6s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- start.ps1 -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.5s" dur="0.4s" fill="freeze"/>
+    <rect x="435" y="148" width="105" height="34" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="435" y="148" width="105" height="34" rx="8" fill="#10B981" opacity="0.08"/>
+    <text x="487" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#6EE7B7">start.ps1</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.1s" begin="10.8s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- stop.sh -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.6s" dur="0.4s" fill="freeze"/>
+    <rect x="555" y="148" width="95" height="34" rx="8" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+    <rect x="555" y="148" width="95" height="34" rx="8" fill="#EF4444" opacity="0.08"/>
+    <text x="602" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#FCA5A5">stop.sh</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="4.3s" begin="11s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- stop.ps1 -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="1.7s" dur="0.4s" fill="freeze"/>
+    <rect x="665" y="148" width="100" height="34" rx="8" fill="#0F172A" stroke="#EF4444" stroke-width="1.5"/>
+    <rect x="665" y="148" width="100" height="34" rx="8" fill="#EF4444" opacity="0.08"/>
+    <text x="715" y="170" text-anchor="middle" class="mono" font-size="11" font-weight="500" fill="#FCA5A5">stop.ps1</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="3.9s" begin="11.2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- Root files label -->
+  <text x="450" y="210" text-anchor="middle" font-size="10" fill="#9CA3AF" letter-spacing="1.5" opacity="0">
+    ROOT FILES
+    <animate attributeName="opacity" from="0" to="0.6" begin="2.0s" dur="0.3s" fill="freeze"/>
+  </text>
+
+  <!-- ============================================ -->
+  <!-- DIVIDER LINE (2.2s)                          -->
+  <!-- ============================================ -->
+  <line x1="60" y1="222" x2="840" y2="222" stroke="#4B5563" stroke-width="0.5" stroke-dasharray="4 3" stroke-opacity="0" opacity="0.3">
+    <animate attributeName="stroke-opacity" from="0" to="0.3" begin="2.2s" dur="0.3s" fill="freeze"/>
+  </line>
+
+  <!-- ============================================ -->
+  <!-- THREE BRANCH LINES from root (2.4s)          -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="0.5" begin="2.4s" dur="0.5s" fill="freeze"/>
+    <line x1="450" y1="222" x2="165" y2="260" stroke="#10B981" stroke-width="1.5"/>
+    <line x1="450" y1="222" x2="450" y2="260" stroke="#F59E0B" stroke-width="1.5"/>
+    <line x1="450" y1="222" x2="735" y2="260" stroke="#06B6D4" stroke-width="1.5"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- SKILLS/ FOLDER (2.8s)                        -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="2.8s" dur="0.6s" fill="freeze"/>
+    <rect x="60" y="260" width="210" height="45" rx="10" fill="#0F172A" stroke="#10B981" stroke-width="2" filter="url(#glow-emerald)"/>
+    <rect x="60" y="260" width="210" height="45" rx="10" fill="#10B981" opacity="0.1"/>
+    <!-- Folder icon -->
+    <rect x="78" y="275" width="14" height="10" rx="2" fill="none" stroke="#6EE7B7" stroke-width="1.5"/>
+    <rect x="78" y="272" width="7" height="4" rx="1" fill="none" stroke="#6EE7B7" stroke-width="1.2"/>
+    <text x="100" y="288" class="mono" font-size="14" font-weight="700" fill="#6EE7B7">skills/</text>
+    <!-- Audience badge -->
+    <text x="200" y="298" font-size="8" fill="#9CA3AF" letter-spacing="0.5">AI AGENTS</text>
+  </g>
+
+  <!-- Skills children -->
+  <!-- dependency-guard -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="3.3s" dur="0.4s" fill="freeze"/>
+    <line x1="90" y1="305" x2="90" y2="330" stroke="#10B981" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="55" y="328" width="220" height="30" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+    <rect x="55" y="328" width="220" height="30" rx="8" fill="#10B981" opacity="0.05"/>
+    <text x="165" y="348" text-anchor="middle" class="mono" font-size="10" fill="#6EE7B7">dependency-guard/SKILL.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="4s" begin="10.5s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- visual-diagram-narrator -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="3.5s" dur="0.4s" fill="freeze"/>
+    <line x1="90" y1="358" x2="90" y2="373" stroke="#10B981" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="25" y="370" width="260" height="30" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+    <rect x="25" y="370" width="260" height="30" rx="8" fill="#10B981" opacity="0.05"/>
+    <text x="155" y="390" text-anchor="middle" class="mono" font-size="10" fill="#6EE7B7">visual-diagram-narrator/SKILL.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.3s" begin="10.8s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- interactive-simulation-architect -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="3.7s" dur="0.4s" fill="freeze"/>
+    <line x1="90" y1="400" x2="90" y2="415" stroke="#10B981" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="5" y="412" width="295" height="30" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+    <rect x="5" y="412" width="295" height="30" rx="8" fill="#10B981" opacity="0.05"/>
+    <text x="152" y="432" text-anchor="middle" class="mono" font-size="9.5" fill="#6EE7B7">interactive-simulation-architect/SKILL.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="3.7s" begin="11.1s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- vite8-architect -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="3.9s" dur="0.4s" fill="freeze"/>
+    <line x1="90" y1="442" x2="90" y2="457" stroke="#10B981" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="55" y="454" width="220" height="30" rx="8" fill="#0F172A" stroke="#10B981" stroke-width="1"/>
+    <rect x="55" y="454" width="220" height="30" rx="8" fill="#10B981" opacity="0.05"/>
+    <text x="165" y="474" text-anchor="middle" class="mono" font-size="10" fill="#6EE7B7">vite8-architect/SKILL.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.6s" begin="11.4s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- PROMPTS/ FOLDER (4.2s)                       -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="4.2s" dur="0.6s" fill="freeze"/>
+    <rect x="335" y="260" width="230" height="45" rx="10" fill="#0F172A" stroke="#F59E0B" stroke-width="2" filter="url(#glow-amber)"/>
+    <rect x="335" y="260" width="230" height="45" rx="10" fill="#F59E0B" opacity="0.1"/>
+    <rect x="353" y="275" width="14" height="10" rx="2" fill="none" stroke="#FCD34D" stroke-width="1.5"/>
+    <rect x="353" y="272" width="7" height="4" rx="1" fill="none" stroke="#FCD34D" stroke-width="1.2"/>
+    <text x="375" y="288" class="mono" font-size="14" font-weight="700" fill="#FCD34D">prompts/</text>
+    <text x="490" y="298" font-size="8" fill="#9CA3AF" letter-spacing="0.5">LLM CHAT / API</text>
+  </g>
+
+  <!-- Prompts children -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="4.6s" dur="0.4s" fill="freeze"/>
+    <line x1="370" y1="305" x2="370" y2="330" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="320" y="328" width="260" height="28" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+    <rect x="320" y="328" width="260" height="28" rx="8" fill="#F59E0B" opacity="0.05"/>
+    <text x="450" y="347" text-anchor="middle" class="mono" font-size="9.5" fill="#FCD34D">dependency-guard-prompt.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="4.1s" begin="10.6s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="4.8s" dur="0.4s" fill="freeze"/>
+    <line x1="370" y1="356" x2="370" y2="370" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="310" y="368" width="280" height="28" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+    <rect x="310" y="368" width="280" height="28" rx="8" fill="#F59E0B" opacity="0.05"/>
+    <text x="450" y="387" text-anchor="middle" class="mono" font-size="9.5" fill="#FCD34D">visual-diagram-narrator-prompt.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.4s" begin="10.9s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="5.0s" dur="0.4s" fill="freeze"/>
+    <line x1="370" y1="396" x2="370" y2="410" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="305" y="408" width="310" height="28" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+    <rect x="305" y="408" width="310" height="28" rx="8" fill="#F59E0B" opacity="0.05"/>
+    <text x="460" y="427" text-anchor="middle" class="mono" font-size="8.5" fill="#FCD34D">interactive-simulation-architect-prompt.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="3.9s" begin="11.2s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="5.2s" dur="0.4s" fill="freeze"/>
+    <line x1="370" y1="436" x2="370" y2="450" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="320" y="448" width="260" height="28" rx="8" fill="#0F172A" stroke="#F59E0B" stroke-width="1"/>
+    <rect x="320" y="448" width="260" height="28" rx="8" fill="#F59E0B" opacity="0.05"/>
+    <text x="450" y="467" text-anchor="middle" class="mono" font-size="9.5" fill="#FCD34D">vite8-architect-prompt.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.7s" begin="11.5s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- DOCS/ FOLDER (5.5s)                          -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="5.5s" dur="0.6s" fill="freeze"/>
+    <rect x="630" y="260" width="230" height="45" rx="10" fill="#0F172A" stroke="#06B6D4" stroke-width="2" filter="url(#glow-cyan)"/>
+    <rect x="630" y="260" width="230" height="45" rx="10" fill="#06B6D4" opacity="0.1"/>
+    <rect x="648" y="275" width="14" height="10" rx="2" fill="none" stroke="#67E8F9" stroke-width="1.5"/>
+    <rect x="648" y="272" width="7" height="4" rx="1" fill="none" stroke="#67E8F9" stroke-width="1.2"/>
+    <text x="670" y="288" class="mono" font-size="14" font-weight="700" fill="#67E8F9">docs/</text>
+    <text x="785" y="298" font-size="8" fill="#9CA3AF" letter-spacing="0.5">HUMANS READ</text>
+  </g>
+
+  <!-- Docs children -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="5.9s" dur="0.4s" fill="freeze"/>
+    <line x1="660" y1="305" x2="660" y2="330" stroke="#06B6D4" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="620" y="328" width="260" height="28" rx="8" fill="#0F172A" stroke="#06B6D4" stroke-width="1"/>
+    <rect x="620" y="328" width="260" height="28" rx="8" fill="#06B6D4" opacity="0.05"/>
+    <text x="750" y="347" text-anchor="middle" class="mono" font-size="9.5" fill="#67E8F9">dependency-guard-README.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="4.2s" begin="10.7s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="6.1s" dur="0.4s" fill="freeze"/>
+    <line x1="660" y1="356" x2="660" y2="370" stroke="#06B6D4" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="610" y="368" width="280" height="28" rx="8" fill="#0F172A" stroke="#06B6D4" stroke-width="1"/>
+    <rect x="610" y="368" width="280" height="28" rx="8" fill="#06B6D4" opacity="0.05"/>
+    <text x="750" y="387" text-anchor="middle" class="mono" font-size="9" fill="#67E8F9">visual-diagram-narrator-README.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.5s" begin="11s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="6.3s" dur="0.4s" fill="freeze"/>
+    <line x1="660" y1="396" x2="660" y2="410" stroke="#06B6D4" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="600" y="408" width="295" height="28" rx="8" fill="#0F172A" stroke="#06B6D4" stroke-width="1"/>
+    <rect x="600" y="408" width="295" height="28" rx="8" fill="#06B6D4" opacity="0.05"/>
+    <text x="747" y="427" text-anchor="middle" class="mono" font-size="8" fill="#67E8F9">interactive-simulation-architect-README.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-1;0,0;0,1;0,0" dur="3.8s" begin="11.3s" repeatCount="indefinite"/>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="6.5s" dur="0.4s" fill="freeze"/>
+    <line x1="660" y1="436" x2="660" y2="450" stroke="#06B6D4" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="620" y="448" width="260" height="28" rx="8" fill="#0F172A" stroke="#06B6D4" stroke-width="1"/>
+    <rect x="620" y="448" width="260" height="28" rx="8" fill="#06B6D4" opacity="0.05"/>
+    <text x="750" y="467" text-anchor="middle" class="mono" font-size="9.5" fill="#67E8F9">vite8-architect-README.md</text>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,1;0,0;0,-1;0,0" dur="4.8s" begin="11.6s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- AUDIENCE LEGEND (8s)                         -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="8s" dur="0.5s" fill="freeze"/>
+
+    <rect x="100" y="510" width="700" height="55" rx="10" fill="#0F172A" stroke="#4B5563" stroke-width="1"/>
+
+    <!-- Three audience columns -->
+    <!-- Skills = AI Agents -->
+    <circle cx="195" cy="530" r="6" fill="#10B981" filter="url(#glow-emerald)"/>
+    <text x="210" y="528" font-size="10" font-weight="700" fill="#10B981">skills/</text>
+    <text x="210" y="543" font-size="9" fill="#9CA3AF">AI agents read these</text>
+
+    <!-- Prompts = Humans paste -->
+    <circle cx="420" cy="530" r="6" fill="#F59E0B" filter="url(#glow-amber)"/>
+    <text x="435" y="528" font-size="10" font-weight="700" fill="#F59E0B">prompts/</text>
+    <text x="435" y="543" font-size="9" fill="#9CA3AF">Paste into LLM chat / API</text>
+
+    <!-- Docs = Humans read -->
+    <circle cx="660" cy="530" r="6" fill="#06B6D4" filter="url(#glow-cyan)"/>
+    <text x="675" y="528" font-size="10" font-weight="700" fill="#06B6D4">docs/</text>
+    <text x="675" y="543" font-size="9" fill="#9CA3AF">Humans read to understand</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- FILE COUNT BADGE (8.5s)                      -->
+  <!-- ============================================ -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" begin="8.5s" dur="0.5s" fill="freeze"/>
+    <rect x="250" y="585" width="400" height="42" rx="10" fill="#0F172A" stroke="#8B5CF6" stroke-width="1.5" filter="url(#glow-purple)"/>
+    <rect x="250" y="585" width="400" height="42" rx="10" fill="#8B5CF6" opacity="0.06"/>
+    <text x="450" y="603" text-anchor="middle" font-size="11" font-weight="600" fill="#E0E0E0">
+      18 files total — 6 root + 4 skills + 4 prompts + 4 docs
+    </text>
+    <text x="450" y="619" text-anchor="middle" font-size="10" fill="#C4B5FD" font-style="italic">
+      Three audiences, three folders, zero confusion
+    </text>
+    <!-- Pulsing border -->
+    <rect x="250" y="585" width="400" height="42" rx="10" fill="none" stroke="#8B5CF6" stroke-width="1" stroke-opacity="0">
+      <animate attributeName="stroke-opacity" values="0.6;0.2;0.6" dur="3s" begin="10s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- SUBTITLE (9s)                                -->
+  <!-- ============================================ -->
+  <text x="450" y="660" text-anchor="middle" font-size="11" fill="#9CA3AF" font-style="italic" opacity="0">
+    One AGENTS.md at root — the single source of truth for every AI coding agent
+    <animate attributeName="opacity" from="0" to="0.6" begin="9s" dur="0.5s" fill="freeze"/>
+  </text>
+
+  <!-- Decorative corner dots -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="0.15" begin="9.5s" dur="0.5s" fill="freeze"/>
+    <circle cx="25" cy="25" r="1" fill="#6366F1"/>
+    <circle cx="875" cy="25" r="1" fill="#6366F1"/>
+    <circle cx="25" cy="725" r="1" fill="#6366F1"/>
+    <circle cx="875" cy="725" r="1" fill="#6366F1"/>
+  </g>
+</svg>
