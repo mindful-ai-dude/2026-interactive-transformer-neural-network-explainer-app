@@ -431,7 +431,7 @@ The software is available under the [MIT License](https://github.com/poloclub/tr
 
 ## Contact
 
-If you have any questions, feel free to [open an issue](https://github.com/mindful-ai-dude/2026-interactive-transformer-neural-network-explainer-app/new/choose) 
+If you have any questions, feel free to [open an issue](https://github.com/mindful-ai-dude/2026-interactive-transformer-neural-network-explainer-app/issues) 
 or contact [Gregory Kennedy](https://www.linkedin.com/in/gregorykennedymindfuldude/).
 
 ## More AI explainers to check out
