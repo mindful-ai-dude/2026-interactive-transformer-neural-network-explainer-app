@@ -1,9 +1,11 @@
-# Transformer Explainer 2026: Interactive Learning of Text-Generative Models
+# 2026-interactive-transformer-neural-network-explainer-app
 
-**Modern Stack: Vite 8 + Svelte 5 + TypeScript**  
-**Updated: April 8, 2026 by Gregory Kennedy**
+**Interactive Learning of Text-Generative Models**
 
-Transformer Explainer is an interactive visualization tool designed to help anyone learn how Transformer-based models like GPT work. It runs a live GPT-2 model right in your browser, or choose between running Openrouter or Ollama local or cloud models, that allows you to experiment with your own text and observe in real time how internal components and operations of the Transformer work together in llm token prediction.
+## Modern Stack: Vite 8 + Svelte 5 + TypeScript 
+**April 8, 2026 by Gregory Kennedy**
+
+The 2026 interactive transformer neural network explainer app is an interactive visualization tool designed to help anyone learn how Transformer-based models like GPT work. It runs a live GPT-2 model right in your browser, or choose between running Openrouter or Ollama local or cloud models, that allows you to experiment with your own text and observe in real time how internal components and operations of the Transformer work together in llm token prediction.
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![arxiv badge](https://img.shields.io/badge/arXiv-2408.04619-red)](https://arxiv.org/abs/2408.04619)
@@ -82,7 +84,6 @@ Open http://localhost:5173 in your browser. That's it!
 # On Windows
 .\start.ps1
 ```
-
 ---
 
 ## Step-by-Step Setup
@@ -143,7 +144,6 @@ Press `Ctrl+C` in the terminal, or use:
 # On Windows  
 .\stop.ps1
 ```
-
 ---
 
 ## Multi-Model Configuration
@@ -171,8 +171,8 @@ The app now supports multiple model providers. Here's how to set them up:
 3. **Pull Models** (optional - you can do this from the UI too)
    ```bash
    ollama pull llama3.2
-   ollama pull gemma3
-   ollama pull mistral
+   ollama pull gemma4
+   ollama pull mistral3
    ```
 
 4. **Enable in UI**
@@ -296,6 +296,111 @@ transformer-explainer/
 
 ---
 
+## Git Workflow for Beginners
+
+This section covers the exact commands to push changes to GitHub. Follow these steps every time you want to save your work to the repository.
+
+### Basic Workflow (Push Changes to GitHub)
+
+```bash
+# Step 1: Check what files have changed
+git status
+
+# Step 2: Add all your changes to be committed
+git add -A
+
+# Step 3: Commit your changes with a descriptive message
+git commit -m "Describe what you changed here"
+
+# Step 4: Push to GitHub
+git push origin main
+```
+
+### Example: Pushing a README Update
+
+```bash
+git add README.md
+git commit -m "docs: add git workflow section for beginners"
+git push origin main
+```
+
+### Troubleshooting Common Git Issues
+
+#### ❌ "failed to push some refs to..."
+**Cause:** Someone else (or you on another computer) pushed changes before you.
+
+**Solution:**
+```bash
+# Pull the latest changes first
+git pull origin main
+
+# Then push again
+git push origin main
+```
+
+#### ❌ "cannot lock ref 'refs/heads/main'"
+**Cause:** GitHub is processing another push or there's a temporary lock.
+
+**Solution:**
+```bash
+# Wait 30 seconds and try again
+git push origin main
+
+# If that fails, force fetch and retry
+git fetch origin
+git push origin main
+```
+
+#### ❌ "Your branch is behind 'origin/main'"
+**Cause:** The remote has changes you don't have locally.
+
+**Solution:**
+```bash
+# Fetch and merge remote changes
+git pull origin main --rebase
+
+# Then push your changes
+git push origin main
+```
+
+#### ❌ "merge conflict"
+**Cause:** You and someone else edited the same lines.
+
+**Solution:**
+```bash
+# See which files have conflicts
+git status
+
+# Edit the files and look for "<<<<<<< HEAD" markers
+# Keep the code you want, remove the marker lines
+
+# After fixing, add and commit
+git add -A
+git commit -m "fix: resolve merge conflict"
+git push origin main
+```
+
+### Helpful Git Commands
+
+```bash
+# See recent commits
+git log --oneline -5
+
+# See what changed in a specific file
+git diff README.md
+
+# Undo all uncommitted changes (be careful!)
+git checkout -- .
+
+# Create a new branch for experimental changes
+git checkout -b my-experiment
+
+# Switch back to main
+git checkout main
+```
+
+---
+
 ## Troubleshooting
 
 ### "Port 5173 is in use"
@@ -304,4 +409,3 @@ Solution: The server is already running. Either:
 - Use the existing server at http://localhost:5173
 - Run `./stop.sh` (macOS/Linux) or `.
 
-[Response interrupted by API Error]
