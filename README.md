@@ -2,6 +2,20 @@
 
 **Interactive Learning of Text-Generative Models**
 
+## 🎉 What's New (April 2026)
+
+**✨ Multi-Model Support Added!**
+
+This enhanced version now supports multiple LLM providers beyond GPT-2:
+
+- **🦙 Ollama (Local)** - Run Llama 3.2/3.1/4, Mistral, Gemma, and other models locally
+- **☁️ Ollama Cloud** - Access large models without a GPU (GPT-OSS 120B, Gemma 4, etc.)
+- **🔌 OpenRouter** - Connect to 100+ models including GPT-5.4, Claude 4.6, Gemini 3.1
+
+Simply click the model selector in the top bar to switch between models!
+
+---
+
 ## Modern SOTA Tech Stack: Vite 8 + Svelte 5 + TypeScript 
 **April 8, 2026 by Gregory Kennedy**
 
@@ -26,18 +40,6 @@ The 2026 interactive transformer neural network explainer app is an interactive 
 - [Research & Citation](#research--citation)
 
 ---
-
-## 🎉 What's New (April 2026)
-
-**✨ Multi-Model Support Added!**
-
-This enhanced version now supports multiple LLM providers beyond GPT-2:
-
-- **🦙 Ollama (Local)** - Run Llama 3.2/3.1/4, Mistral, Gemma, and other models locally
-- **☁️ Ollama Cloud** - Access large models without a GPU (GPT-OSS 120B, Gemma 4, etc.)
-- **🔌 OpenRouter** - Connect to 100+ models including GPT-5.4, Claude 4.6, Gemini 3.1
-
-Simply click the model selector in the top bar to switch between models!
 
 ### Quick Setup for New Features
 
