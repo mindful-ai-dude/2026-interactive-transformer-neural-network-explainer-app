@@ -8,7 +8,7 @@ Transformer Explainer is an interactive visualization tool designed to help anyo
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![arxiv badge](https://img.shields.io/badge/arXiv-2408.04619-red)](https://arxiv.org/abs/2408.04619)
 
-<img width="75%" src="./images/1-transformer-explainer-plus.png">
+<img width="100%" src="./images/1-transformer-explainer-plus.png">
 
 ---
 
