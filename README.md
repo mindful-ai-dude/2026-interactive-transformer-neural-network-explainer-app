@@ -1,4 +1,4 @@
-# Transformer Explainer: Interactive Learning of Text-Generative Models
+# Transformer Explainer 2026: Interactive Learning of Text-Generative Models
 
 **Modern Stack: Vite 8 + Svelte 5 + TypeScript**  
 **Updated: April 8, 2026 by Gregory Kennedy**
@@ -8,7 +8,7 @@ Transformer Explainer is an interactive visualization tool designed to help anyo
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![arxiv badge](https://img.shields.io/badge/arXiv-2408.04619-red)](https://arxiv.org/abs/2408.04619)
 
-<img width="100%" src="./images/1-transformer-explainer-plus.png">
+<img width="100%" src="./images/1-transformer-explainer-2026-gregory-kennedy.png">
 
 ---
 
@@ -60,8 +60,8 @@ export OPENROUTER_API_KEY=your_key_here
 
 ```bash
 # 1. Get the code
-git clone https://github.com/poloclub/transformer-explainer.git
-cd transformer-explainer
+git clone https://github.com/mindful-ai-dude/transformer-explainer-2026
+cd transformer-explainer-2026
 
 # 2. Install dependencies (we use pnpm - install it if you don't have it)
 npm install -g pnpm
