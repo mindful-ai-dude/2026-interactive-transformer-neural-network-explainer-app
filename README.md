@@ -3,10 +3,7 @@
 **Modern Stack: Vite 8 + Svelte 5 + TypeScript**  
 **Updated: April 8, 2026 by Gregory Kennedy**
 
-Transformer Explainer is an interactive visualization tool designed to help anyone learn how Transformer-based models like GPT work. It runs a live GPT-2 model right in your browser, allowing you to experiment with your own text and observe in real time how internal components and operations of the Transformer work together to predict the next tokens.
-
-**Try it live:** 
-**Watch demo:** 
+Transformer Explainer is an interactive visualization tool designed to help anyone learn how Transformer-based models like GPT work. It runs a live GPT-2 model right in your browser, or choose between running Openrouter or Ollama local or cloud models, that allows you to experiment with your own text and observe in real time how internal components and operations of the Transformer work together in llm token prediction.
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![arxiv badge](https://img.shields.io/badge/arXiv-2408.04619-red)](https://arxiv.org/abs/2408.04619)
