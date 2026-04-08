@@ -2,7 +2,7 @@
 
 **Interactive Learning of Text-Generative Models**
 
-## Modern Stack: Vite 8 + Svelte 5 + TypeScript 
+## Modern SOTA Tech Stack: Vite 8 + Svelte 5 + TypeScript 
 **April 8, 2026 by Gregory Kennedy**
 
 The 2026 interactive transformer neural network explainer app is an interactive visualization tool designed to help anyone learn how Transformer-based models like GPT work. It runs a live GPT-2 model right in your browser, or choose between running Openrouter or Ollama local or cloud models, that allows you to experiment with your own text and observe in real time how internal components and operations of the Transformer work together in llm token prediction.
