@@ -62,7 +62,7 @@ export OPENROUTER_API_KEY=your_key_here
 
 ```bash
 # 1. Get the code
-git clone https://github.com/mindful-ai-dude/transformer-explainer-2026
+git clone https://github.com/mindful-ai-dude/2026-interactive-transformer-neural-network-explainer-app 
 cd transformer-explainer-2026
 
 # 2. Install dependencies (we use pnpm - install it if you don't have it)
