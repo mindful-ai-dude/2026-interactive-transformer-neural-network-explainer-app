@@ -407,7 +407,7 @@ git checkout main
 
 Solution: The server is already running. Either:
 - Use the existing server at http://localhost:5173
-- Run `./stop.sh` (macOS/Linux) or `.
+- Run `./stop.sh` (macOS/Linux) 'ctrl C'
 
 ## Credits
 
