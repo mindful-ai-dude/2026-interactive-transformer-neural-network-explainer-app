@@ -4,7 +4,7 @@
 
 ## 🎉 What's New (April 2026)
 
-**✨ Multi-Model Support Added!**
+**✨ Opensource Multi-Model Support Added!**
 
 This enhanced version now supports multiple LLM providers beyond GPT-2:
 
