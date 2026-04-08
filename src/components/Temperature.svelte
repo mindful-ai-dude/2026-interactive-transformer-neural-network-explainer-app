@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { temperature } from '~/store';
-	import HelpPopover from './common/HelpPopover.svelte';
 	import Slider from './common/Slider.svelte';
 	import TextbookTooltip from './common/TextbookTooltip.svelte';
-	import { removeFingerFromElements } from '~/utils/textbook';
 	import { textPages } from '~/utils/textbookPages';
 
 	export let disabled: boolean = false;
 
 	// TEMPERATURE
-	let temperatureIndex = 6; // Default to the value corresponding to 0.8 in the array
+	let temperatureIndex: number = 6; // Default to the value corresponding to 0.8 in the array
 	const temperatureArray = [
 		// 0.05, 0.1, // error in Math.exp()
 		0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0
@@ -27,7 +25,7 @@
 		max={temperatureArray.length - 1}
 		step={1}
 		bind:value={temperatureIndex}
-		valueText={temperatureTemp}
+		valueText={temperatureTemp.toString()}
 		onClick={() => {
 			textPages.find((page) => page.id === 'temperature')?.complete();
 		}}

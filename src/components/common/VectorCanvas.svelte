@@ -17,17 +17,26 @@
 	const lineHeight = 1;
 
 	$: colorKey = typeof colorScale === 'string' ? colorScale : 'gray';
-	$: color =
-		typeof colorScale === 'function'
-			? colorScale
-			: d3.interpolate(theme.colors[colorKey][100], theme.colors[colorKey][400]);
+	// Get color scale with type assertion for dynamic color key access
+	$: colorFunc = (): ((t: number) => string) => {
+		if (typeof colorScale === 'function') {
+			return colorScale as (t: number) => string;
+		}
+		// Type-safe access to theme colors
+		const colors = (theme.colors as unknown) as Record<string, Record<string, string>>;
+		const colorSet = colors[colorKey] || colors['gray'];
+		return d3.interpolate(colorSet[100], colorSet[400]);
+	};
+	$: color = colorFunc();
 
 	function drawCanvas() {
 		const ctx = canvas.getContext('2d');
 		if (!ctx) return;
 
-		const width = canvas.parentElement.clientWidth;
-		const height = canvas.parentElement.clientHeight;
+		const parent = canvas.parentElement;
+		if (!parent) return;
+		const width = parent.clientWidth;
+		const height = parent.clientHeight;
 
 		ctx.clearRect(0, 0, width, height);
 
@@ -38,8 +47,8 @@
 		canvas.style.height = `${height}px`;
 
 		for (let i = 0; i < height / lineHeight; i++) {
-			const value = data[i];
-			ctx.fillStyle = color(value);
+			const value = data[i] ?? 0;
+			ctx.fillStyle = typeof color === 'function' ? (color as (t: number) => string)(value) : color;
 			ctx.fillRect(0, i * lineHeight * pixelRatio, width * pixelRatio, lineHeight * pixelRatio);
 		}
 	}
@@ -51,7 +60,7 @@
 		};
 	});
 
-	$: if (data && canvas && color) {
+	$: if (data && canvas) {
 		drawCanvas();
 	}
 </script>

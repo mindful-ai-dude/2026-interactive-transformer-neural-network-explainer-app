@@ -15,13 +15,12 @@ const config = {
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-			fallback: null,
+			fallback: 'index.html',
 			precompress: false,
 			strict: false // Ignore errors about dynamic routes
 		}),
 		prerender: {
-			// List the specific routes to prerender
-			entries: ['/' /* other routes if needed */]
+			entries: []
 		},
 		alias: {
 			'~': './src'

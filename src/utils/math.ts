@@ -42,7 +42,7 @@ export function formatTokenForDisplay(token: string): string {
  * @returns A single sampled item
  */
 export function randomChoice(items: Probabilities): Probability {
-	const probabilities = items.map((d) => d.probability);
+	const probabilities = items.map((d: Probability) => d.probability);
 
 	// Generate a random number between 0 and 1
 	const random = Math.random();

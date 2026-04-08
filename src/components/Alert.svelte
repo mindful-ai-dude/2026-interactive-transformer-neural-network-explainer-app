@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Alert } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 
@@ -27,7 +27,5 @@
 {/if}
 
 <style lang="scss">
-	.alert-content {
-		// width: 30rem;
-	}
+	/* Empty ruleset removed - was: .alert-content { // width: 30rem; } */
 </style>

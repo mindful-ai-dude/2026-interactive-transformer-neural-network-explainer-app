@@ -5,25 +5,68 @@
 	import InputForm from '~/components/InputForm.svelte';
 	import { ga } from '~/utils/event';
 	import Sampling from '~/components/Sampling.svelte';
+	import ModelSelector from '~/components/ModelSelector.svelte';
+	import ModelStatus from '~/components/ModelStatus.svelte';
+	import SettingsModal from '~/components/SettingsModal.svelte';
 
 	export let isActive;
 
 	// Check if current page is about page
 	$: isAboutPage = $page.url.pathname === '/about';
+
+	// Settings modal state
+	let isSettingsOpen = false;
+
+	function openSettings() {
+		isSettingsOpen = true;
+	}
+
+	function closeSettings() {
+		isSettingsOpen = false;
+	}
 </script>
 
 <div class="top-bar flex w-full items-center gap-4 px-10 py-2 pb-3" class:active={isActive}>
 	<div class="logo text-bold text-gray-700" data-click="logo">
 		T<span class="small">RANSFORMER</span> E<span class="small">XPLAINER</span>
 	</div>
-	<div class="inputs flex grow items-center">
-		<div class="input-wrapper w-full" class:active={isActive}>
+	<div class="inputs flex grow items-center gap-4">
+		<div class="input-wrapper flex-1" class:active={isActive}>
 			{#if !isAboutPage}
 				<InputForm />
 			{/if}
 		</div>
+		<!-- Model Selector -->
+		<div class="model-selector-wrapper">
+			<ModelSelector size="sm" variant="minimal" />
+		</div>
+		<!-- Ollama Status -->
+		<div class="model-status-wrapper">
+			<ModelStatus provider="ollama" size="sm" variant="badge" showLabel={false} />
+		</div>
 	</div>
 	<div class="icons flex items-center gap-3">
+		<!-- Settings -->
+		<button
+			type="button"
+			class="h-6 w-6 text-gray-800 dark:text-white hover:text-blue-600 transition-colors"
+			onclick={openSettings}
+			aria-label="Settings"
+			title="Settings"
+		>
+			<svg
+				aria-hidden="true"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				fill="currentColor"
+				viewBox="0 0 24 24"
+			>
+				<path d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17Z" />
+				<path d="M17 8a3.001 3.001 0 0 0-2.83 2H4a1 1 0 1 0 0 2h10.17A3.001 3.001 0 0 0 20 14h1a1 1 0 1 0 0-2h-1a3.001 3.001 0 0 0-2.83-2Z" />
+				<path d="M7 14a3.001 3.001 0 0 0-2.83 2H4a1 1 0 1 0 0 2h.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2H7.17A3.001 3.001 0 0 0 7 14Z" />
+			</svg>
+		</button>
 		<!-- arxiv -->
 		<a href="https://arxiv.org/abs/2408.04619" target="_blank" data-click="pdf-btn">
 			<svg
@@ -85,6 +128,9 @@
 	</div>
 </div>
 
+<!-- Settings Modal -->
+<SettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
+
 <style lang="scss">
 	.top-bar {
 		background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0) 100%);
@@ -125,6 +171,13 @@
 			svg {
 				fill: theme('colors.gray.600');
 			}
+		}
+		.model-selector-wrapper {
+			flex-shrink: 0;
+			min-width: 180px;
+		}
+		.model-status-wrapper {
+			flex-shrink: 0;
 		}
 	}
 </style>

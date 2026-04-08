@@ -23,6 +23,17 @@
 	let headBlockSize = { width: 0, height: 0 };
 	let opacityOffset = 0.1;
 
+	interface HeadStyle {
+		width: string;
+		height: string;
+		transform: string;
+		x: number;
+		y: number;
+		scale: number;
+		zIndex: number;
+		opacity: number;
+	}
+
 	$: headStyles = Array.from({ length: $modelMeta.attention_head_num }, (_, index) => ({
 		width: `${headBlockSize.width}px`,
 		height: `${headBlockSize.height}px`,
@@ -82,15 +93,15 @@
 		}
 	});
 
-	let container;
-	let heads = [];
+	let container: HTMLDivElement;
+	let heads: HTMLDivElement[] = [];
 	let disablePagination = false;
 
 	onMount(() => {
-		heads = Array.from(container.children);
+		heads = Array.from(container.children) as HTMLDivElement[];
 	});
 
-	let tl;
+	let tl: gsap.core.Timeline | undefined;
 
 	const animateForwardTransition = () => {
 		if (tl) {
@@ -109,8 +120,10 @@
 				asyncUpdateAttentionIdx();
 			},
 			onComplete: () => {
-				container.appendChild(firstHead);
-				heads.push(heads.shift());
+				if (container && firstHead) {
+					container.appendChild(firstHead);
+					heads.push(heads.shift()!);
+				}
 				disablePagination = false;
 			}
 		});
@@ -199,8 +212,10 @@
 				asyncUpdateAttentionIdx();
 			},
 			onComplete: () => {
-				container.prepend(lastHead);
-				heads.unshift(heads.pop());
+				if (container && lastHead) {
+					container.prepend(lastHead);
+					heads.unshift(heads.pop()!);
+				}
 				disablePagination = false;
 			}
 		});

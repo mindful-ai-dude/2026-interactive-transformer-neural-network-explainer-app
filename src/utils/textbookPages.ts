@@ -24,7 +24,7 @@ export interface TextbookPage {
 	title: string;
 	content?: string;
 	component?: any;
-	timeoutId?: number;
+	timeoutId?: ReturnType<typeof setTimeout>;
 	on: () => void;
 	out: () => void;
 	complete?: () => void;

@@ -7,31 +7,45 @@
 	import resolveConfig from 'tailwindcss/resolveConfig';
 	const { theme } = resolveConfig(tailwindConfig);
 
-	export let rowHeight;
-	export let rowGap;
+	export let rowHeight: number;
+	export let rowGap: number;
 	export let hoveredIndex: number | null = null;
 
 	const barHeight = 4;
 
-	let svgEl: HTMLOrSVGElement;
+	let svgEl: SVGSVGElement;
 
 	let percentPrecision = 2;
 
 	let normalColor = theme.colors.gray[300];
 	let hoverColor = theme.colors.purple[400];
 
+	interface ProbabilityData {
+		rank: number;
+		tokenId: number;
+		token: string;
+		logit: number;
+		scaledLogit: number;
+		expLogit: number;
+		probability: number;
+	}
+
 	export let drawBars = () => {
-		const data = $modelData?.probabilities;
+		const data = $modelData?.probabilities as ProbabilityData[] | undefined;
+		if (!data || !svgEl) return;
 
 		const svg = d3.select(svgEl);
 
+		const maxProbability = d3.max(data, (d) => d.probability);
+		if (maxProbability === undefined) return;
+
 		let xScale = d3
 			.scaleLinear()
-			.domain([0, d3.max(data, (d) => d.probability)])
-			.range([0, svgEl?.clientWidth - rootRem * 3]);
+			.domain([0, maxProbability])
+			.range([0, (svgEl?.clientWidth || 0) - rootRem * 3]);
 
 		const groups = svg
-			.selectAll('g.probability')
+			.selectAll<SVGGElement, ProbabilityData>('g.probability')
 			.data(data)
 			.join('g')
 			.attr('class', 'probability')
@@ -42,11 +56,10 @@
 			});
 
 		groups
-			.selectAll('rect.bar')
+			.selectAll<SVGRectElement, ProbabilityData>('rect.bar')
 			.data((d) => [d])
 			.join('rect')
 			.classed('bar', true)
-			// .attr('x', 0)
 			.attr('y', (d, i) => rowHeight / 2 - barHeight / 2)
 			.attr('height', barHeight)
 			.attr('width', (d) => xScale(d.probability))
@@ -64,7 +77,7 @@
 
 		//label
 		groups
-			.selectAll('text.label')
+			.selectAll<SVGTextElement, ProbabilityData>('text.label')
 			.data((d) => [d])
 			.join('text')
 			.classed('label', true)
@@ -79,7 +92,6 @@
 			.attr('text-anchor', 'start')
 			.style('font-size', '0.95rem')
 			.style('letter-spacing', '-0.02em')
-			// .style('font-family', 'monospace')
 			.transition()
 			.duration(500)
 			.tween('text', function (d) {
@@ -95,8 +107,8 @@
 					};
 				}
 				const i = d3.interpolateNumber(
-					that.text().replace('%', '').replace('<', ''),
-					(d.probability * 100).toFixed(percentPrecision)
+					parseFloat(that.text().replace('%', '').replace('<', '')) || 0,
+					parseFloat((d.probability * 100).toFixed(percentPrecision))
 				);
 				return function (t) {
 					let text = i(t).toFixed(percentPrecision) + '%';
@@ -128,20 +140,20 @@
 	const updateColor = () => {
 		if (!svgEl) return;
 		const svg = d3.select(svgEl);
-		const groups = svg.selectAll('g.probability');
+		const groups = svg.selectAll<SVGGElement, ProbabilityData>('g.probability');
 
 		groups.each(function (d, i) {
-			let color;
+			let color: string;
 			if (i === hoveredIndex) {
 				color = hoverColor;
 			} else if ($predictedToken?.rank === i) {
-				color = predictedColor;
+				color = $predictedColor || '';
 			} else {
 				color = normalColor;
 			}
 
-			d3.select(this).select('rect').attr('fill', color);
-			d3.select(this).select('text').attr('fill', color);
+			d3.select(this).select<SVGRectElement>('rect').attr('fill', color);
+			d3.select(this).select<SVGTextElement>('text').attr('fill', color);
 		});
 	};
 </script>

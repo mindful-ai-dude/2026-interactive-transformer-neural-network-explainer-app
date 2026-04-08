@@ -117,7 +117,7 @@ export const headGap = { x: 5, y: 8, scale: 0 };
 export const isBoundingBoxActive = writable(false);
 
 /** Color used for predicted token highlighting */
-export const predictedColor = colors.purple[600];
+export const predictedColor = writable(colors.purple[600]);
 
 // ─── Interactivity State ─────────────────────────────────────────────────────
 

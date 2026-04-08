@@ -10,11 +10,11 @@ export default {
 
 	// darkMode: 'class',
 
-	theme: {
+		theme: {
 		extend: {
 			screens: {
-				sm: '',
-				xs: ''
+				xs: '475px',
+				sm: '640px'
 			},
 			fontSize: {},
 			colors: {

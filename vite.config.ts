@@ -1,24 +1,23 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import path from 'path';
 
 export default defineConfig({
 	plugins: [sveltekit()],
 	css: {
 		preprocessorOptions: {
 			scss: {
-				additionalData: `@import 'src/styles/variables.scss';`
+				additionalData: `@use '${path.resolve('./src/styles/variables.scss')}' as *;`
 			}
 		}
 	},
 	build: {
-		cssMinify: 'lightningcss' // Bundled with Vite 8, no install needed
+		cssMinify: 'lightningcss'
 	},
 	server: {
 		fs: {
-			// Allow serving files from one level up to the project root
 			allow: ['..']
 		},
-		forwardConsole: true // NEW Vite 8: Browser console logs appear in terminal
-	},
-	esbuild: false // Rolldown/Oxc handles all transformations in Vite 8
+		forwardConsole: true
+	}
 });

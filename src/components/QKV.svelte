@@ -20,7 +20,7 @@
 	const valHeadVectorColor = 'bg-green-300';
 
 	// attentionHeadIdx subscribe
-	const headCursors = {};
+	const headCursors: Record<string, HTMLElement> = {};
 
 	onMount(() => {
 		const unsubscribe = attentionHeadIdx.subscribe(async (newIdx) => {

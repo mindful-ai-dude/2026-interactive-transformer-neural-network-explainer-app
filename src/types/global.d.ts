@@ -50,7 +50,7 @@ type Probability = {
 type Probabilities = Probability[];
 type ModelData = {
 	logits: number[];
-	outputs: Record<string, { data: number[][]; dims: number[]; size: number }>;
+	outputs: Record<string, { data: number[][]; dims?: number[]; size?: number }>;
 	probabilities: Probabilities;
 	sampled: Probability;
 	tokens?: string[];
@@ -58,3 +58,25 @@ type ModelData = {
 };
 
 type Sampling = { type: 'top-k' | 'top-p'; value: number };
+
+// Google Analytics declarations
+declare global {
+	interface Window {
+		dataLayer?: any[];
+	}
+
+	type Flow = Flow;
+	type MatrixData = MatrixData;
+	type ModelMetaData = ModelMetaData;
+	type HighlightedToken = HighlightedToken;
+	type HighlightedHead = HighlightedHead;
+	type ExpandedBlock = ExpandedBlock;
+	type Probability = Probability;
+	type Probabilities = Probabilities;
+	type ModelData = ModelData;
+	type Sampling = Sampling;
+}
+
+declare const gtag: (...args: any[]) => void;
+
+export {};

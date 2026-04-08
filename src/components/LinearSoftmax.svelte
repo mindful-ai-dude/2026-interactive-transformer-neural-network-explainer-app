@@ -30,7 +30,7 @@
 
 	setContext('block-id', 'softmax');
 
-	const blockId = getContext('block-id');
+	const blockId = getContext<string>('block-id');
 
 	let isSoftmaxExpanded = false;
 	let showLogitPopover = false;
@@ -51,7 +51,7 @@
 		}
 	};
 
-	const onClickSoftmaxTitle = (e) => {
+	const onClickSoftmaxTitle = (e: MouseEvent) => {
 		e.stopPropagation();
 		e.preventDefault();
 		textPages.find((page) => page.id === 'output-probabilities')?.out();
@@ -66,25 +66,25 @@
 	};
 	let expandableEl: HTMLDivElement;
 
-	function handleOutsideClick(e) {
-		if (isSoftmaxExpanded && !expandableEl.contains(e.target)) {
+	function handleOutsideClick(e: MouseEvent) {
+		if (isSoftmaxExpanded && !expandableEl.contains(e.target as Node)) {
 			expandedBlock.set({ id: null });
 		}
 	}
 	onMount(() => {
-		document.querySelector('.main-section').addEventListener('click', handleOutsideClick);
+		document.querySelector('.main-section')?.addEventListener('click', handleOutsideClick);
 		return () => {
-			document.querySelector('.main-section').removeEventListener('click', handleOutsideClick);
+			document.querySelector('.main-section')?.removeEventListener('click', handleOutsideClick);
 		};
 	});
 
 	// animation
-	let containerState: any;
+	let containerState: Flip.FlipState;
 
 	let drawBars: () => void;
 
 	// google analytics
-	let startTime = null;
+	let startTime: number | null = null;
 
 	const expandSoftmax = async () => {
 		containerState = Flip.getState('.softmax .softmax-detail.expandable');
@@ -121,7 +121,7 @@
 
 	const collapseSoftmax = async () => {
 		let endTime = performance.now();
-		let visibleDuration = endTime - startTime;
+		let visibleDuration = startTime ? endTime - startTime : 0;
 
 		window.dataLayer?.push({
 			event: 'visibility-hide',
@@ -171,7 +171,7 @@
 	// top-p
 	$: topPProbabilities = data?.map((d) => d.topPProbability) || [];
 	$: cumulativeProbabilities = data?.map((d) => d.cumulativeProbability) || [];
-	$: cutoffIndex = data?.[0].cutoffIndex;
+	$: cutoffIndex = data?.[0]?.cutoffIndex;
 
 	let isHovered = false;
 
@@ -183,7 +183,7 @@
 		isHovered = false;
 	}
 
-	const onClickLogits = (e) => {
+	const onClickLogits = (e: MouseEvent) => {
 		e.stopPropagation();
 		e.preventDefault();
 		showLogitPopover = !showLogitPopover;
@@ -357,10 +357,10 @@
 											class:sample_highlight={$highlightedIndex === idx}
 											class:final_token_highlight={$predictedToken?.rank === idx}
 											class:cutoff={cutoffIndex === idx}
-											class:filtered={cutoffIndex >= idx}
-											class:zero={cutoffIndex < idx}
+											class:filtered={cutoffIndex !== undefined && cutoffIndex >= idx}
+											class:zero={cutoffIndex !== undefined && cutoffIndex < idx}
 										>
-											<span class="number" class:strike={cutoffIndex < idx}>{prob.toFixed(2)}</span>
+											<span class="number" class:strike={cutoffIndex !== undefined && cutoffIndex < idx}>{prob.toFixed(2)}</span>
 											{#if cutoffIndex === idx}
 												<span class="cutoff-label"
 													>sum={cumulativeProbabilities[idx]?.toFixed(2)}</span

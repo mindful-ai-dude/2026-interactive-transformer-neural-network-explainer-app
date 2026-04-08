@@ -20,7 +20,7 @@ export const fakeRunWithCachedData = async ({
 	temperature,
 	sampling
 }: {
-	cachedData: any;
+	cachedData: ModelData;
 	tokenizer: PreTrainedTokenizer;
 	temperature: number;
 	sampling: Sampling;
@@ -28,11 +28,11 @@ export const fakeRunWithCachedData = async ({
 	isModelRunning.set(true);
 
 	modelData.set(cachedData);
-	tokens.set(cachedData.tokens);
-	tokenIds.set(cachedData.tokenIds);
+	tokens.set(cachedData.tokens ?? []);
+	tokenIds.set(cachedData.tokenIds ?? []);
 
 	setTimeout(async () => {
-		await showFlowAnimation(cachedData.tokens.length, true);
+		await showFlowAnimation(cachedData.tokens?.length ?? 0, true);
 		adjustTemperature({
 			tokenizer,
 			logits: cachedData.logits,
@@ -128,14 +128,17 @@ export const getData = async (token_ids: number[]) => {
 		const results = await session.run(feeds);
 
 		// Extract the logits
-		const logits = results['linear_output'].data;
+		const logits = results['linear_output'].data as unknown as number[];
 
 		// Extract the dictionary values
 		const outputs = targetTensors.reduce(
 			(obj, key) => {
-				const out = results[key];
+				const out = results[key] as ort.Tensor;
 				const processedData = {
-					data: reshapeArray([...out.cpuData], out.dims)
+					data: reshapeArray(
+						[...(out.data as unknown as number[])],
+						out.dims as number[]
+					)
 				};
 				obj[key] = processedData;
 				return obj;

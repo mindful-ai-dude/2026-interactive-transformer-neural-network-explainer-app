@@ -41,7 +41,7 @@
 	$: exceedLimit = inputTextTemp.split(' ').length >= wordLimit;
 
 	// Text input
-	const onFocusInput = (e) => {
+	const onFocusInput = (e?: Event) => {
 		let formattedString = (inputTextTemp + predictedTokenTemp).replace(/[\s\n]+/g, ' ');
 
 		inputTextTemp = formattedString;
@@ -49,14 +49,16 @@
 		// set predicted to empty
 		predictedTokenTemp = '';
 		// set input box text
-		inputRef.innerText = inputTextTemp;
+		if (inputRef) {
+			inputRef.innerText = inputTextTemp;
+		}
 	};
 
-	const onInput = (e) => {
-		inputTextTemp = inputRef.innerText;
+	const onInput = (e: Event) => {
+		inputTextTemp = inputRef?.innerText || '';
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: Event) => {
 		// Complete any running animation before starting new generation
 		completeCurrentAnimation();
 
@@ -84,7 +86,7 @@
 		}, 0);
 	};
 
-	const handleKeyDown = (e) => {
+	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			if (disabled || exceedLimit) return;
@@ -96,7 +98,7 @@
 
 	// Example select box
 	let dropdownOpen = false;
-	const onSelectExample = (d, i) => {
+	const onSelectExample = (d: string, i: number) => {
 		if ($isFetchingModel) {
 			textPages.find((page) => page.id === 'how-transformers-work')?.complete();
 		}
@@ -107,7 +109,9 @@
 		predictedTokenTemp = '';
 
 		inputTextTemp = d;
-		inputRef.innerText = inputTextTemp;
+		if (inputRef) {
+			inputRef.innerText = inputTextTemp;
+		}
 		inputText.update((prev) => {
 			if (prev === d.trim()) {
 				return d + ' ';
@@ -117,20 +121,21 @@
 		useCustomInput = false;
 	};
 
-	const moveCursorToEnd = (element) => {
+	const moveCursorToEnd = (element: HTMLElement) => {
 		const range = document.createRange();
 		const sel = window.getSelection();
-		range.selectNodeContents(element);
-		range.collapse(false);
-		sel.removeAllRanges();
-		sel.addRange(range);
+		if (range && sel) {
+			range.selectNodeContents(element);
+			range.collapse(false);
+			sel.removeAllRanges();
+			sel.addRange(range);
+		}
 		element.focus();
 	};
 
 	$: isLoading = $isFetchingModel || $isModelRunning;
 	$: disabled =
 		$isFetchingModel ||
-		// $isModelRunning ||
 		$expandedBlock.id !== null ||
 		!!$weightPopover;
 	$: selectDisabled = $isModelRunning || $expandedBlock.id !== null || !!$weightPopover;
@@ -153,7 +158,7 @@
 				{#each inputTextExample as text, index}
 					<DropdownItem
 						data-click={`dropdown-item-${index}`}
-						class={$selectedExampleIdx === index && 'active'}
+						class={$selectedExampleIdx === index ? 'active' : ''}
 						on:click={() => {
 							onSelectExample(text, index);
 						}}>{text}</DropdownItem
@@ -166,13 +171,13 @@
 				class="input-container"
 				class:disabled
 				role="none"
-				on:keydown={(e) => {
+				on:keydown={(e: KeyboardEvent) => {
 					e.stopPropagation();
-					inputRef.focus();
+					inputRef?.focus();
 				}}
-				on:click={(e) => {
+				on:click={(e: MouseEvent) => {
 					e.stopPropagation();
-					inputRef.focus();
+					inputRef?.focus();
 				}}
 			>
 				<div class={`editable ${!$isModelRunning ? 'w-full' : ''}`}>
@@ -184,7 +189,7 @@
 						on:focus={onFocusInput}
 						on:input={onInput}
 						on:keydown={handleKeyDown}
-						on:click={(e) => {
+						on:click={(e: MouseEvent) => {
 							e.stopPropagation();
 						}}
 						role="input"
@@ -196,11 +201,13 @@
 							bind:this={predictRef}
 							class="predicted"
 							role="none"
-							on:click={(e) => {
+							on:click={(e: MouseEvent) => {
 								e.stopPropagation();
 								onFocusInput(e);
-								inputRef.focus();
-								moveCursorToEnd(inputRef);
+								inputRef?.focus();
+								if (inputRef) {
+									moveCursorToEnd(inputRef);
+								}
 							}}
 						>
 							<span>{predictedTokenTemp}</span>
@@ -225,7 +232,7 @@
 		</ButtonGroup>
 		<button
 			data-click="generate-btn"
-			disabled={disabled || exceedLimit || exceedLimit}
+			disabled={disabled || exceedLimit}
 			class={classNames('generate-button rounded-lg text-center text-sm shadow-sm', {
 				disabled: disabled || exceedLimit,
 				active: !(disabled || exceedLimit)

@@ -1,3 +1,4 @@
-// since there's no dynamic data here, we can prerender
-// it so that it gets served as a static asset in production
-export const prerender = true;
+// This is a browser-only app that uses onnxruntime-web
+// Prerendering is disabled to prevent SSR issues with browser APIs
+export const prerender = false;
+export const ssr = false;

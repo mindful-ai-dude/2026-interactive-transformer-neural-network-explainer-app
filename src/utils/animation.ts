@@ -6,13 +6,14 @@ import { get } from 'svelte/store';
 import * as d3 from 'd3';
 const { theme } = resolveConfig(tailwindConfig);
 
-const getGradientStops = (className: string, stopIdx = 1) => {
+const getGradientStops = (className: string, stopIdx = 1): (SVGStopElement | undefined)[] => {
 	return Array.from(document.querySelectorAll(className)).map(
 		(el) => el?.querySelectorAll('stop')[stopIdx]
 	);
 };
+
 const generateGradientAnimation = (
-	tl,
+	tl: GSAPTimeline,
 	gradStop: undefined | SVGStopElement | (SVGStopElement | undefined)[],
 	options: GSAPTweenVars = {}
 ) => {
@@ -27,11 +28,16 @@ const generateGradientAnimation = (
 
 	const { from = '0%', to = '100%' } = offset;
 
-	const initialColor = Array.isArray(gradStop)
-		? gradStop.map((d) => d.getAttribute('stop-color'))
+	if (!gradStop) return;
+
+	const initialColor: (string | null | undefined)[] | string | null | undefined = Array.isArray(gradStop)
+		? gradStop.map((d) => d?.getAttribute('stop-color'))
 		: gradStop.getAttribute('stop-color');
 
-	tl.fromTo(
+	// Use type assertion to bypass strict GSAP typing
+	const tlAny = tl as any;
+
+	tlAny.fromTo(
 		gradStop,
 		{ attr: { offset: from, ['stop-color']: color } },
 		{
@@ -49,7 +55,7 @@ const generateGradientAnimation = (
 		{
 			attr: {
 				offset: to,
-				['stop-color']: (i) => (Array.isArray(gradStop) ? initialColor[i] : initialColor)
+				['stop-color']: (_i: number) => (Array.isArray(gradStop) ? initialColor?.[_i as number] : initialColor) as string
 			},
 			duration,
 			ease,
@@ -59,7 +65,7 @@ const generateGradientAnimation = (
 	);
 };
 
-const fadeOutColor = theme.colors.gray[100];
+const fadeOutColor = (theme.colors as any).gray[100];
 const nodeFadeOutOpacity = 0.2;
 let flowTimeline: GSAPTimeline;
 
@@ -69,13 +75,14 @@ export const completeCurrentAnimation = () => {
 	}
 };
 
-export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = true) => {
+export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = true): Promise<void> => {
 	completeCurrentAnimation();
 
 	let isFirstBlock = get(blockIdx) === 0;
-	let isLastBlock = get(blockIdx) === get(modelMeta)?.layer_num - 1;
+	const modelMetaValue = get(modelMeta);
+	let isLastBlock = modelMetaValue ? get(blockIdx) === modelMetaValue.layer_num - 1 : false;
 
-	return new Promise((resolve) => {
+	return new Promise<void>((resolve) => {
 		const tl = gsap.timeline({
 			onStart: () => {
 				isOnAnimation.set(true);
@@ -146,7 +153,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 			tl.fromTo(
 				tokenEmbedding2,
 				{
-					opacity: (i, d) => {
+					opacity: (_i: number, d: Element) => {
 						if (isNextTokenOnly) {
 							return d.classList.contains('last') ? 0 : 1;
 						}
@@ -189,7 +196,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			qkvVectors,
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -259,7 +266,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			qkvHead1,
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -281,18 +288,20 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 			const QKDuration = 0.7;
 			const stagger = Number((QKDuration / tokenLength).toFixed(2));
 
-			[...keyPaths, ...queryPaths].forEach((path) => {
-				path.style.strokeDasharray = 0;
-				path.style.strokeDashoffset = 0;
+			Array.from(keyPaths).concat(Array.from(queryPaths)).forEach((path) => {
+				const svgPath = path as SVGPathElement;
+				svgPath.style.strokeDasharray = '0';
+				svgPath.style.strokeDashoffset = '0';
 			});
 
-			const lastKeyPath = keyPaths[keyPaths.length - 1];
-			const lastQueryPath = queryPaths[queryPaths.length - 1];
+			const lastKeyPath = keyPaths[keyPaths.length - 1] as SVGPathElement;
+			const lastQueryPath = queryPaths[queryPaths.length - 1] as SVGPathElement;
 
 			[lastKeyPath, lastQueryPath].forEach((path) => {
+				if (!path) return;
 				const length = path.getTotalLength();
-				path.style.strokeDasharray = length;
-				path.style.strokeDashoffset = length;
+				path.style.strokeDasharray = String(length);
+				path.style.strokeDashoffset = String(length);
 			});
 
 			tl.to(lastKeyPath, {
@@ -313,7 +322,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 					'<'
 				)
 				.from(
-					attentionMatrix.querySelectorAll('svg circle.last'),
+					attentionMatrix?.querySelectorAll('svg circle.last') ?? [],
 					{
 						scale: 0,
 						transformOrigin: '50% 50%',
@@ -330,10 +339,11 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 			const QKDuration = 0.4;
 			const stagger = Number((QKDuration / tokenLength).toFixed(2));
 
-			[...keyPaths, ...queryPaths].forEach((path) => {
-				const length = path.getTotalLength();
-				path.style.strokeDasharray = length;
-				path.style.strokeDashoffset = length;
+			Array.from(keyPaths).concat(Array.from(queryPaths)).forEach((path) => {
+				const svgPath = path as SVGPathElement;
+				const length = svgPath.getTotalLength();
+				svgPath.style.strokeDasharray = String(length);
+				svgPath.style.strokeDashoffset = String(length);
 			});
 
 			tl.to(keyPaths, {
@@ -354,7 +364,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 					'<'
 				)
 				.from(
-					attentionMatrix.querySelectorAll('svg circle'),
+					attentionMatrix?.querySelectorAll('svg circle') ?? [],
 					{
 						scale: 0,
 						transformOrigin: '50% 50%',
@@ -389,7 +399,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			[outputHead1, outputTitle],
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -422,7 +432,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			mlpInputs,
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -456,7 +466,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			[mlpProjections, mlpActivations],
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -487,7 +497,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			mlpOutputs,
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -556,7 +566,7 @@ export const showFlowAnimation = async (tokenLength: number, isNextTokenOnly = t
 		tl.fromTo(
 			finalOutput,
 			{
-				opacity: (i, d) => {
+				opacity: (_i: number, d: Element) => {
 					if (isNextTokenOnly) {
 						return d.classList.contains('last') ? 0 : 1;
 					}
@@ -602,7 +612,7 @@ export const drawResidualLine = (id?: string) => {
 	};
 
 	const drawLine = () => {
-		let startGroup, endGroup, connector;
+		let startGroup: NodeListOf<Element>, endGroup: NodeListOf<Element>, connector: any;
 
 		if (!id) {
 			startGroup = document.querySelectorAll('[data-click="residual-start"]');
@@ -613,7 +623,7 @@ export const drawResidualLine = (id?: string) => {
 			endGroup = document.querySelectorAll(`#${id}-end`);
 			connector = d3.selectAll(`.residual-connector.${id}`);
 		}
-		connector.style('opacity', 1);
+		(connector as any).style('opacity', 1);
 		connectLine(connector);
 
 		startGroup.forEach((el) => el.classList.add('active'));
@@ -621,7 +631,7 @@ export const drawResidualLine = (id?: string) => {
 	};
 
 	const removeLine = () => {
-		let startGroup, endGroup, connector;
+		let startGroup: NodeListOf<Element>, endGroup: NodeListOf<Element>, connector: any;
 
 		if (!id) {
 			startGroup = document.querySelectorAll('[data-click="residual-start"]');
@@ -633,10 +643,10 @@ export const drawResidualLine = (id?: string) => {
 			connector = d3.selectAll(`.residual-connector.${id}`);
 		}
 
-		connector.style('opacity', 0);
+		(connector as any).style('opacity', 0);
 		if (residualAnimation) {
 			residualAnimation.kill();
-			connector.style('stroke-dashoffset', 0);
+			(connector as any).style('stroke-dashoffset', 0);
 		}
 
 		startGroup.forEach((el) => el.classList.remove('active'));

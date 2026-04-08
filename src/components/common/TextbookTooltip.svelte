@@ -10,7 +10,7 @@
 
 	export let id: string;
 
-	function openTextbook(e) {
+	function openTextbook(e: MouseEvent | KeyboardEvent) {
 		e.stopPropagation();
 		e.preventDefault();
 

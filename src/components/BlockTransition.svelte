@@ -111,13 +111,19 @@
 	onMount(() => {
 		const setPosition = () => {
 			const scrollLeft = window.scrollX;
-			const topbarHeight = document.querySelector('.top-bar')?.offsetHeight;
+			const topbarHeight = document.querySelector('.top-bar')?.offsetHeight ?? 0;
 
 			const embedding = document.querySelector('.step.qkv .content .block-start-column');
 			const block =
 				$blockIdx === $modelMeta.layer_num - 1
 					? document.querySelector('.step.transformer-blocks .content .column.final')
 					: document.querySelector('.step.transformer-blocks .content');
+
+			// Guard against null elements
+			if (!embedding || !block) {
+				console.warn('BlockTransition: Required elements not found in DOM');
+				return;
+			}
 
 			const embeddingRect = embedding.getBoundingClientRect();
 			const blockRect = block.getBoundingClientRect();
@@ -128,13 +134,22 @@
 				width: blockRect.left - embeddingRect.left - rootRem
 			};
 		};
-		setPosition();
+		
+		// Delay initial position calculation to ensure DOM is ready
+		setTimeout(setPosition, 100);
 
 		resizeObserver = new ResizeObserver((entries) => {
 			setPosition();
 		});
 		const elements = document?.querySelectorAll('.resize-watch');
-		elements.forEach((el) => resizeObserver.observe(el));
+		elements?.forEach((el) => resizeObserver.observe(el));
+		
+		// Cleanup
+		return () => {
+			if (resizeObserver) {
+				resizeObserver.disconnect();
+			}
+		};
 	});
 
 	const onClickNext = (e) => {

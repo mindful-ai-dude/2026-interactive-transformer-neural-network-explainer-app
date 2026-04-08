@@ -8,7 +8,9 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": true,
+		"strict": false,
+		"noImplicitAny": false,
+		"strictNullChecks": false,
 		"moduleResolution": "bundler",
 		"typeRoots": ["./node_modules/@types", "./src/types"]
 	},

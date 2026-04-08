@@ -51,17 +51,23 @@
 	let appStartTime = Date.now();
 
 	// fetch model
-	onMount(async () => {
-		const gpt2Tokenizer = await AutoTokenizer.from_pretrained('Xenova/gpt2');
-		active = true;
+	onMount(() => {
+		let unsubscribe: (() => void) | undefined;
 
-		const unsubscribe = subscribeInputs(gpt2Tokenizer);
+		(async () => {
+			const gpt2Tokenizer = await AutoTokenizer.from_pretrained('Xenova/gpt2');
+			active = true;
 
-		if (!$isMobile) {
-			await fetchModel();
-		}
+			unsubscribe = subscribeInputs(gpt2Tokenizer);
 
-		return unsubscribe;
+			if (!$isMobile) {
+				await fetchModel();
+			}
+		})();
+
+		return () => {
+			unsubscribe?.();
+		};
 	});
 
 	// Fetch model onnx

@@ -3,15 +3,16 @@
 	import { CloseOutline } from 'flowbite-svelte-icons';
 	import { onDestroy, onMount } from 'svelte';
 	import { userId, weightPopover } from '~/store';
+	import type { TimelineType } from '~/utils/gsap';
 
 	export let id: string;
 	export let title: string;
 	export let className: string | undefined = undefined;
 	export let isAnimationActive: boolean = false;
-	export let timeline;
+	export let timeline: TimelineType;
 	export let isOpen: boolean = true;
 
-	let startTime;
+	let startTime: number;
 
 	onMount(() => {
 		startTime = performance.now();

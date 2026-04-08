@@ -1,16 +1,35 @@
 <script lang="ts">
 	import { Radio } from 'flowbite-svelte';
 	import { sampling, userId } from '~/store';
-	import HelpPopover from './common/HelpPopover.svelte';
 	import Slider from './common/Slider.svelte';
 	import TextbookTooltip from './common/TextbookTooltip.svelte';
 	import { textPages } from '~/utils/textbookPages';
+
+	type SamplingType = 'top-k' | 'top-p';
 
 	export let disabled: boolean = false;
 
 	$: samplingValMax = $sampling.type === 'top-k' ? 50 : 1;
 	$: samplingValMin = $sampling.type === 'top-k' ? 1 : 0.1;
 	$: samplingValStep = $sampling.type === 'top-k' ? 1 : 0.1;
+
+	function handleSamplingChange(type: SamplingType) {
+		if (type === 'top-k') {
+			sampling.set({ type: 'top-k', value: 5 });
+			window.dataLayer?.push({
+				event: 'sampling-selected',
+				sampling_type: 'top-k',
+				user_id: $userId
+			});
+		} else {
+			sampling.set({ type: 'top-p', value: 0.5 });
+			window.dataLayer?.push({
+				event: 'sampling-selected',
+				sampling_type: 'top-p',
+				user_id: $userId
+			});
+		}
+	}
 </script>
 
 <div class="sampling-input" data-click="input-sampling">
@@ -46,17 +65,10 @@
 					inline
 					name="sampling-type"
 					value="top-k"
-					on:click={(e) => {
+					on:click={(e: MouseEvent) => {
 						e.stopPropagation();
 					}}
-					on:change={(e) => {
-						e.target.checked && sampling.set({ type: 'top-k', value: 5 });
-						window.dataLayer?.push({
-							event: 'sampling-selected',
-							sampling_type: 'top-k',
-							user_id: $userId
-						});
-					}}
+					on:change={() => handleSamplingChange('top-k')}
 					checked={$sampling.type === 'top-k'}
 					{disabled}
 					color="purple">Top-k</Radio
@@ -67,17 +79,10 @@
 					name="sampling-type"
 					value="top-p"
 					checked={$sampling.type === 'top-p'}
-					on:click={(e) => {
+					on:click={(e: MouseEvent) => {
 						e.stopPropagation();
 					}}
-					on:change={(e) => {
-						e.target.checked && sampling.set({ type: 'top-p', value: 0.5 });
-						window.dataLayer?.push({
-							event: 'sampling-selected',
-							sampling_type: 'top-p',
-							user_id: $userId
-						});
-					}}
+					on:change={() => handleSamplingChange('top-p')}
 					{disabled}
 					color="purple">Top-p</Radio
 				>

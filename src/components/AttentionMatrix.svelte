@@ -21,7 +21,6 @@
 	import Katex from '~/utils/Katex.svelte';
 	import { Tooltip } from 'flowbite-svelte';
 	import { ATTENTION_OUT } from '~/constants/opacity';
-	import { ga } from '~/utils/event';
 	import { ZoomInOutline } from 'flowbite-svelte-icons';
 	import TextbookTooltip from '~/components/common/TextbookTooltip.svelte';
 	import { textPages } from '~/utils/textbookPages';
@@ -59,7 +58,7 @@
 
 	let isAttentionExpanded = false;
 
-	const blockId = getContext('block-id');
+	const blockId = getContext<string>('block-id');
 
 	// event handling
 
@@ -72,7 +71,7 @@
 		expandAttention();
 	}
 
-	const onClickAttention = (e) => {
+	const onClickAttention = (e: Event) => {
 		e.stopPropagation();
 		e.preventDefault();
 		textPages.find((page) => page.id === 'masked-self-attention')?.complete();
@@ -84,16 +83,19 @@
 
 	let expandableEl: HTMLDivElement;
 
-	function handleOutsideClick(e) {
-		if (isAttentionExpanded && !expandableEl.contains(e.target)) {
+	function handleOutsideClick(e: MouseEvent) {
+		if (isAttentionExpanded && !expandableEl.contains(e.target as Node)) {
 			expandedBlock.set({ id: null });
 		}
 	}
 	onMount(() => {
-		document.querySelector('.main-section').addEventListener('click', handleOutsideClick);
-		return () => {
-			document.querySelector('.main-section').removeEventListener('click', handleOutsideClick);
-		};
+		const mainSection = document.querySelector('.main-section');
+		if (mainSection) {
+			mainSection.addEventListener('click', handleOutsideClick);
+			return () => {
+				mainSection.removeEventListener('click', handleOutsideClick);
+			};
+		}
 	});
 
 	// animation
@@ -101,7 +103,7 @@
 	let collapseTl = gsap.timeline();
 
 	// google analytics
-	let startTime = null;
+	let startTime: number | null = null;
 
 	const expandAttention = () => {
 		highlightAttentionPath();
@@ -110,26 +112,37 @@
 		isExpandOrCollapseRunning.set(true);
 		collapseTl.progress(1);
 
-		const keyPaths = document.querySelectorAll('div.sankey g.attention path.key-to-attention');
-		const queryPaths = document.querySelectorAll('div.sankey g.attention path.query-to-attention');
-		const outPaths = document.querySelectorAll('div.sankey g.attention path.to-attention-out');
+		const keyPaths = document.querySelectorAll<SVGPathElement>(
+			'div.sankey g.attention path.key-to-attention'
+		);
+		const queryPaths = document.querySelectorAll<SVGPathElement>(
+			'div.sankey g.attention path.query-to-attention'
+		);
+		const outPaths = document.querySelectorAll<SVGPathElement>(
+			'div.sankey g.attention path.to-attention-out'
+		);
 
 		[...keyPaths, ...queryPaths].forEach((path) => {
 			const length = path.getTotalLength();
-			path.style.strokeDasharray = length;
-			path.style.strokeDashoffset = length;
+			path.style.strokeDasharray = length.toString();
+			path.style.strokeDashoffset = length.toString();
 		});
 
 		const QKDuration = 1.2;
 		const stagger = Number((QKDuration / $tokens.length).toFixed(2));
 
-		expandTl
-			.set([attentionMask.querySelector('.prev'), attentionSoftmax.querySelector('.prev')], {
-				opacity: 1
-			})
-			.set([attentionMask.querySelector('.main'), attentionSoftmax.querySelector('.main')], {
-				opacity: 0
-			});
+		// Set initial opacity for attentionMask and attentionSoftmax elements
+		const attentionMaskPrev = attentionMask.querySelector<HTMLElement>('.prev');
+		const attentionSoftmaxPrev = attentionSoftmax.querySelector<HTMLElement>('.prev');
+		const attentionMaskMain = attentionMask.querySelector<HTMLElement>('.main');
+		const attentionSoftmaxMain = attentionSoftmax.querySelector<HTMLElement>('.main');
+
+		if (attentionMaskPrev && attentionSoftmaxPrev) {
+			expandTl.set([attentionMaskPrev, attentionSoftmaxPrev], { opacity: 1 });
+		}
+		if (attentionMaskMain && attentionSoftmaxMain) {
+			expandTl.set([attentionMaskMain, attentionSoftmaxMain], { opacity: 0 });
+		}
 		expandTl.set(outPaths, { opacity: 0 });
 
 		expandTl.to(attentionResult, {
@@ -154,7 +167,6 @@
 				stagger,
 				duration: QKDuration,
 				ease: 'power2.out'
-				// ease: 'back.out(1.7)'
 			})
 			.to(
 				queryPaths,
@@ -162,13 +174,12 @@
 					strokeDashoffset: 0,
 					stagger,
 					duration: QKDuration,
-					// ease: 'back.out(1.7)'
 					ease: 'power2.out'
 				},
 				'<'
 			)
 			.from(
-				attentionQK.querySelectorAll('svg circle'),
+				attentionQK.querySelectorAll<SVGCircleElement>('svg circle'),
 				{
 					scale: 0,
 					transformOrigin: '50% 50%',
@@ -176,7 +187,6 @@
 					delay: QKDuration / $tokens.length,
 					stagger: Number((QKDuration / Math.pow($tokens.length, 2)).toFixed(2)),
 					ease: 'power2.out',
-					// ease: 'back.out(1.7)',
 					duration: QKDuration
 				},
 				'<'
@@ -191,19 +201,20 @@
 				width: attentionMatrixWidth,
 				x: 0,
 				duration: 0.5
-			})
-			.to(attentionMask.querySelector('.prev'), {
-				opacity: 0,
-				duration: 1
-			})
-			.to(
-				attentionMask.querySelector('.main'),
+			});
+		if (attentionMaskPrev) {
+			expandTl.to(attentionMaskPrev, { opacity: 0, duration: 1 });
+		}
+		if (attentionMaskMain) {
+			expandTl.to(
+				attentionMaskMain,
 				{
 					opacity: 1,
 					duration: 1
 				},
 				'<'
 			);
+		}
 
 		// show Softmaxed
 		expandTl
@@ -214,19 +225,20 @@
 				width: attentionMatrixWidth,
 				x: 0,
 				duration: 0.4
-			})
-			.to(attentionSoftmax.querySelector('.prev'), {
-				opacity: 0,
-				duration: 1
-			})
-			.to(
-				attentionSoftmax.querySelector('.main'),
+			});
+		if (attentionSoftmaxPrev) {
+			expandTl.to(attentionSoftmaxPrev, { opacity: 0, duration: 1 });
+		}
+		if (attentionSoftmaxMain) {
+			expandTl.to(
+				attentionSoftmaxMain,
 				{
 					opacity: 1,
 					duration: 1
 				},
 				'<'
 			);
+		}
 
 		expandTl.to(outPaths, {
 			opacity: ATTENTION_OUT,
@@ -246,8 +258,8 @@
 
 	const collapseAttention = () => {
 		removeAttentionPathHighlight();
-		let endTime = performance.now();
-		let visibleDuration = endTime - startTime;
+		const endTime = performance.now();
+		const visibleDuration = startTime ? endTime - startTime : 0;
 
 		window.dataLayer?.push({
 			event: 'visibility-hide',
@@ -283,20 +295,18 @@
 
 	// color scale
 	$: qkColorScaleDomain = d3.extent(queryKey.flat());
-	$: qkColorScale = (d, i) => {
-		return d3
-			.scaleLinear()
-			.domain(qkColorScaleDomain)
-			.range(['white', theme.colors['purple'][700]])(d);
+	$: qkColorScale = (d: number) => {
+		const domain = qkColorScaleDomain as [number, number];
+		return d3.scaleLinear<string>().domain(domain).range(['white', theme.colors['purple'][700]])(d);
 	};
-	const maskedColorScale = (d, i) => {
-		return d3.scaleLinear().domain([-3, 3]).range(['white', theme.colors['purple'][700]])(d);
+	const maskedColorScale = (d: number) => {
+		return d3.scaleLinear<string>().domain([-3, 3]).range(['white', theme.colors['purple'][700]])(d);
 	};
-	const softmaxColorScale = (d, i) => {
-		return d3.interpolate('white', theme.colors['purple'][700])(d);
+	const softmaxColorScale = (d: number) => {
+		return d3.interpolate<string>('white', theme.colors['purple'][700])(d);
 	};
 
-	const onMouseOverCell = (e, d, el) => {
+	const onMouseOverCell = (e: Event, d: { rowIndex: number; colIndex: number; cell: number }, el: Element) => {
 		const rowIdx = d.rowIndex;
 		const colIdx = d.colIndex;
 		hoveredMatrixCell.set({ row: rowIdx, col: colIdx });
@@ -304,15 +314,15 @@
 			d3.select(el).attr('stroke', theme.colors.gray[400]);
 		}
 	};
-	const onMouseOutCell = (e, d, el) => {
+	const onMouseOutCell = (e: Event, d: { cell: number }, el: Element) => {
 		hoveredMatrixCell.set({ row: null, col: null });
 		if (Number.isFinite(d.cell)) {
 			d3.select(el).attr('stroke', !Number.isFinite(d.cell) ? 'none' : theme.colors.gray[200]);
 		}
 	};
 
-	const showTooltip = (e, d) => {
-		if (!Number.isFinite(d)) return;
+	const showTooltip = (e: Event, d: number) => {
+		if (!Number.isFinite(d)) return '';
 		return d.toFixed(2);
 	};
 </script>
@@ -491,7 +501,7 @@
 				<div class="matrix-label">Softmax</div>
 			</TextbookTooltip>
 			<Tooltip class="popover tooltip">
-				<Katex math={'\\text{softmax}(\\frac{QK^T}{\\sqrt{d_k}} + M)'}></Katex>
+				<Katex math={'\\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}} + M\\right)'}></Katex>
 			</Tooltip>
 			<div class="color-scale">
 				<span class="val">0.0</span>

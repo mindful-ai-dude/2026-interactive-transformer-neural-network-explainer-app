@@ -1,8 +1,8 @@
-export const reshapeArray = (arr, dimensions) => {
+export const reshapeArray = (arr: any[], dimensions: number[]): any[] => {
 	// to ignore batch dimension, but ensure to keep the (1,1) attention dimension
-	const filteredDimensions = dimensions.filter((dim, i) => !(i === 0 && dim == 1));
+	const filteredDimensions = dimensions.filter((dim: number, i: number) => !(i === 0 && dim == 1));
 
-	const createNestedArray = (arr, dims) => {
+	const createNestedArray = (arr: any[], dims: number[]): any[] => {
 		if (dims.length === 1) return arr.splice(0, dims[0]);
 		const size = dims[0];
 		const restDims = dims.slice(1);
@@ -12,7 +12,7 @@ export const reshapeArray = (arr, dimensions) => {
 	return createNestedArray(arr, filteredDimensions);
 };
 
-export const findArrayDepth = (arr: any) =>
+export const findArrayDepth = (arr: any): number =>
 	Array.isArray(arr) ? 1 + arr.reduce((max, item) => Math.max(max, findArrayDepth(item)), 0) : 0;
 
 export const splitArray = (doubleArray: number[][], x: number) => {
@@ -26,8 +26,8 @@ export const splitArray = (doubleArray: number[][], x: number) => {
 	);
 };
 
-export const maskArray = (data) => {
-	return data.map((array, index) => {
+export const maskArray = (data: number[][]): number[][] => {
+	return data.map((array: number[], index: number) => {
 		let newArray = new Array(array.length).fill(-Infinity);
 		for (let i = 0; i <= index && i < array.length; i++) {
 			newArray[i] = array[i];
