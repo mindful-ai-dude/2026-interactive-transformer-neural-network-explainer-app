@@ -409,3 +409,33 @@ Solution: The server is already running. Either:
 - Use the existing server at http://localhost:5173
 - Run `./stop.sh` (macOS/Linux) or `.
 
+## Credits
+
+Transformer Explainer was originally created by <a href="https://aereeeee.github.io/" target="_blank">Aeree Cho</a>, <a href="https://www.linkedin.com/in/chaeyeonggracekim/" target="_blank">Grace C. Kim</a>, <a href="https://alexkarpekov.com/" target="_blank">Alexander Karpekov</a>, <a href="https://alechelbling.com/" target="_blank">Alec Helbling</a>, <a href="https://zijie.wang/" target="_blank">Jay Wang</a>, <a href="https://seongmin.xyz/" target="_blank">Seongmin Lee</a>, <a href="https://bhoov.com/" target="_blank">Benjamin Hoover</a>, and <a href="https://poloclub.github.io/polochau/" target="_blank">Polo Chau</a> at the Georgia Institute of Technology.
+
+## Citation
+
+```bibTeX
+@article{cho2024transformer,
+  title = {Transformer Explainer: Interactive Learning of Text-Generative Models},
+  shorttitle = {Transformer Explainer},
+  author = {Cho, Aeree and Kim, Grace C. and Karpekov, Alexander and Helbling, Alec and Wang, Zijie J. and Lee, Seongmin and Hoover, Benjamin and Chau, Duen Horng},
+  journal={IEEE VIS Poster},
+  year={2024}
+}
+```
+
+## License
+
+The software is available under the [MIT License](https://github.com/poloclub/transformer-explainer/blob/main/LICENSE).
+
+## Contact
+
+If you have any questions, feel free to [open an issue](https://github.com/mindful-ai-dude/2026-interactive-transformer-neural-network-explainer-app/new/choose) 
+or contact [Gregory Kennedy](https://www.linkedin.com/in/gregorykennedymindfuldude/).
+
+## More AI explainers to check out
+
+- [**Diffusion Explainer**](https://poloclub.github.io/diffusion-explainer) for learning how Stable Diffusion transforms text prompt into image
+- [**CNN Explainer**](https://poloclub.github.io/cnn-explainer)
+- [**GAN Lab**](https://poloclub.github.io/ganlab) for playing with Generative Adversarial Networks in browser
