@@ -1,5 +1,18 @@
 # 2026-interactive-transformer-neural-network-explainer
 
+## Table of Contents
+
+- [Quick Start](#quick-start) - For the impatient
+- [Step-by-Step Setup](#step-by-step-setup) - Detailed installation guide
+- [Multi-Model Configuration](#multi-model-configuration) - Setup Ollama & OpenRouter
+- [Tech Stack](#tech-stack) - What's under the hood
+- [Development Workflow](#development-workflow) - How we build and maintain
+- [Project Structure](#project-structure) - Where things live
+- [Troubleshooting](#troubleshooting) - When things go wrong
+- [Research & Citation](#research--citation)
+
+---
+
 **Interactive Learning of Text-Generative Models**
 
 ## Modern SOTA Tech Stack: Vite 8 + Svelte 5 + TypeScript 
@@ -40,19 +53,6 @@ export OLLAMA_API_KEY=your_key_here
 # For OpenRouter (optional)
 export OPENROUTER_API_KEY=your_key_here
 ```
-
----
-
-## Table of Contents
-
-- [Quick Start](#quick-start) - For the impatient
-- [Step-by-Step Setup](#step-by-step-setup) - Detailed installation guide
-- [Multi-Model Configuration](#multi-model-configuration) - Setup Ollama & OpenRouter
-- [Tech Stack](#tech-stack) - What's under the hood
-- [Development Workflow](#development-workflow) - How we build and maintain
-- [Project Structure](#project-structure) - Where things live
-- [Troubleshooting](#troubleshooting) - When things go wrong
-- [Research & Citation](#research--citation)
 
 ---
 
