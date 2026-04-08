@@ -1,7 +1,5 @@
 # 2026-interactive-transformer-neural-network-explainer
 
-**Interactive Learning of Text-Generative Models**
-
 ## 🎉 What's New (April 2026)
 
 **✨ Opensource Multi-Model Support Added!**
