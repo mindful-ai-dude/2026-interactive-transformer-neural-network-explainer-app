@@ -1,4 +1,4 @@
-# 2026-interactive-transformer-neural-network-explainer-app
+# 2026-interactive-transformer-neural-network-explainer
 
 **Interactive Learning of Text-Generative Models**
 
